@@ -1,12 +1,13 @@
 #include <algorithm>
 #include <array>
-#include <future>
+#include <chrono>
 #include <iostream>
 #include <list>
 #include <random>
+#include <thread>
 
 using namespace std;
-static constexpr size_t a_size = 10;
+static constexpr size_t a_size = 100;
 static constexpr size_t b_size = a_size;
 static constexpr size_t range = 100;
 static constexpr size_t num_of_threads = 4;
@@ -65,14 +66,14 @@ ArrayType get_sorted_array(const ArrayType &A) {
   auto chunk_size = b_size / num_of_threads;
   // std::cout << "chunck size is: " << chunk_size << std::endl << std::endl <<
   // std::endl;
-  std::vector<std::future<void>> fs;
+  std::vector<std::thread> ts;
   for (size_t i = 0; i < b_size; i += chunk_size) {
-    auto f = std::async(std::launch::deferred, batch_task, std::ref(buckets), i,
-                        std::min(i + chunk_size, b_size));
-    fs.push_back(std::move(f));
+    std::thread t(batch_task, std::ref(buckets), i,
+                  std::min(i + chunk_size, b_size));
+    ts.push_back(std::move(t));
   }
-  for (auto &f : fs) {
-    f.wait();
+  for (std::thread &t : ts) {
+    t.detach();
   }
 
   std::for_each(buckets.begin(), buckets.end(), [&](auto &l) {

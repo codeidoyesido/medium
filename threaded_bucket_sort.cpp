@@ -1,17 +1,14 @@
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <iostream>
 #include <list>
 #include <random>
 #include <thread>
 
 using namespace std;
-static constexpr size_t a_size = 10;
+static constexpr size_t a_size = 1000;
 static constexpr size_t b_size = a_size;
 static constexpr size_t range = 100;
-static constexpr size_t num_of_threads = 4;
-
 using BucketType = std::array<std::list<int>, b_size>;
 using ArrayType = std::array<int, a_size>;
 
@@ -48,13 +45,6 @@ void sort_bucket(BucketType &buckets, int index) {
   // print_list(buckets[index]);
 }
 
-void batch_task(BucketType &buckets, int from, int to) {
-  // std::cout << "Task from: " << from << " to: " << to - 1 << std::endl;
-  for (size_t i = from; i < to; i++) {
-    sort_bucket(buckets, i);
-  }
-}
-
 ArrayType get_sorted_array(const ArrayType &A) {
 
   auto buckets = assign_to_buckets(A);
@@ -63,17 +53,13 @@ ArrayType get_sorted_array(const ArrayType &A) {
   size_t index = 0;
 
   // sort all lists using threads
-  auto chunk_size = b_size / num_of_threads;
-  // std::cout << "chunck size is: " << chunk_size << std::endl << std::endl <<
-  // std::endl;
   std::vector<std::thread> ts;
-  for (size_t i = 0; i < b_size; i += chunk_size) {
-    std::thread t(batch_task, std::ref(buckets), i,
-                  std::min(i + chunk_size, b_size));
+  for (size_t i = 0; i < b_size; i++) {
+    std::thread t(sort_bucket, std::ref(buckets), i);
     ts.push_back(std::move(t));
   }
   for (std::thread &t : ts) {
-    t.join();
+    t.detach();
   }
 
   std::for_each(buckets.begin(), buckets.end(), [&](auto &l) {
