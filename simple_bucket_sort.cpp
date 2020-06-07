@@ -4,12 +4,12 @@
 
 BucketType assign_to_buckets(const ArrayType &a) {
   BucketType buckets;
-  auto put_in_bucket = [&](const size_t &item) {
-    buckets[std::min(BUCKETS - 1, item / BUCKET_WIDTH)].push_back(item);
-  };
 
-  std::for_each(a.begin(), a.end(), put_in_bucket);
-  // std::for_each(buckets.begin(), buckets.end(), print_list);
+  for (auto &item : a) {
+    auto bucket_index = std::min(item / BUCKET_WIDTH, (BUCKETS - 1));
+    buckets[bucket_index].push_back(item);
+  }
+
   return buckets;
 }
 
