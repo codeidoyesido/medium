@@ -15,7 +15,11 @@ BucketType assign_to_buckets(const ArrayType &a) {
 }
 
 // the function that performs the bucket sorting -- runs in parallel
-void sort_bucket(BucketType &buckets, size_t index) { buckets[index].sort(); }
+void sort_bucket(BucketType &buckets, size_t index) {
+  // std::cout << "bucket at: " << index << " is of size: " <<
+  // buckets[index].size() << std::endl;
+  buckets[index].sort();
+}
 
 ArrayType get_sorted_array(const ArrayType &A) {
 
@@ -55,15 +59,15 @@ int main() {
   std::mt19937 gen(seed);
   std::uniform_int_distribution<size_t> dis(0, RANGE);
 
-  // initialize array with random numbers from 0 till RANGE (=100)
+  // initialize array with random numbers from 0 till RANGE (=RANGE)
   for (size_t i = 0; i < ARRAY_SIZE; i++) {
     A[i] = dis(gen);
   }
 
-  print_array(A);
+  // print_array(A);
 
   auto res = get_sorted_array(A);
-  print_array(res);
+  // print_array(res);
 
   return 0;
 }

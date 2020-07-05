@@ -66,7 +66,7 @@ int main() {
   std::mt19937 gen(seed);
   std::uniform_int_distribution<size_t> dis(0, RANGE);
 
-  // initialize array with random numbers from 0 till range (=100)
+  // initialize array with random numbers from 0 till range (=RANGE)
   for (size_t i = 0; i < ARRAY_SIZE; i++) {
     A[i] = dis(gen);
   }

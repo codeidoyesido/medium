@@ -33,6 +33,7 @@ ArrayType get_sorted_array(const ArrayType &A) {
 
   // sort all buckets using threads
   auto chunk_size = BUCKETS / NUM_OF_THREADS;
+  std::cout << chunk_size << std::endl;
   std::vector<std::thread> ts;
   for (size_t i = 0; i < BUCKETS; i += chunk_size) {
     std::thread t(batch_task, std::ref(buckets), i,
@@ -66,15 +67,15 @@ int main() {
   std::mt19937 gen(seed);
   std::uniform_int_distribution<size_t> dis(0, RANGE);
 
-  // initialize array with random numbers from 0 till range (=100)
+  // initialize array with random numbers from 0 till range (=RANGE)
   for (size_t i = 0; i < ARRAY_SIZE; i++) {
     A[i] = dis(gen);
   }
 
-  print_array(A);
+  //  print_array(A);
 
   auto res = get_sorted_array(A);
-  print_array(res);
+  //  print_array(res);
 
   return 0;
 }

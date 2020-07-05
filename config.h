@@ -3,12 +3,13 @@
 #include <iostream>
 #include <list>
 
-static constexpr size_t BUCKETS = 10;
-static constexpr size_t BUCKET_WIDTH = 100;
+static constexpr size_t BUCKETS = 100000;
+static constexpr size_t BUCKET_WIDTH = 1000;
 static constexpr size_t MAX_ARRAY_SIZE = 100000;
 static constexpr size_t ARRAY_SIZE =
     std::min(MAX_ARRAY_SIZE, BUCKETS *BUCKET_WIDTH);
-static constexpr size_t RANGE = BUCKETS * BUCKET_WIDTH;
+static constexpr size_t RANGE =
+    std::min(std::numeric_limits<size_t>::max(), BUCKETS *BUCKET_WIDTH);
 
 using BucketType = std::array<std::list<size_t>, BUCKETS>;
 using ArrayType = std::array<size_t, ARRAY_SIZE>;
