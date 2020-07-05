@@ -64,10 +64,10 @@ int main() {
     A[i] = dis(gen);
   }
 
-  // print_array(A);
+  print_array(A);
 
   auto res = get_sorted_array(A);
-  // print_array(res);
+  print_array(res);
 
   return 0;
 }

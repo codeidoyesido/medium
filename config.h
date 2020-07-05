@@ -3,8 +3,8 @@
 #include <iostream>
 #include <list>
 
-static constexpr size_t BUCKETS = 100000;
-static constexpr size_t BUCKET_WIDTH = 1000;
+static constexpr size_t BUCKETS = 10;
+static constexpr size_t BUCKET_WIDTH = 10;
 static constexpr size_t MAX_ARRAY_SIZE = 100000;
 static constexpr size_t ARRAY_SIZE =
     std::min(MAX_ARRAY_SIZE, BUCKETS *BUCKET_WIDTH);
